@@ -1,46 +1,63 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script setup lang="ts">
+import { ref } from "vue";
+import Calendar from "./components/Calendar/index.vue";
+
+const initialDateEnUS = ref<string>("2029-11-15");
+const initialDateRuRU = ref<string>("2025-02-15");
+const onDateSelect = (date: Date) => {
+  console.log("Selected date:", date);
+};
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
+  <div id="app">
+    <div class="box">
+      <h2>Календарь по умолчанию (en-US):</h2>
+      <Calendar :initial-date="initialDateEnUS" @select="onDateSelect" />
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="box">
+      <h2>Календарь с русской локалью:</h2>
+      <Calendar
+        locale="ru-RU"
+        :initial-date="initialDateRuRU"
+        @select="onDateSelect"
+      />
+    </div>
+    <div class="box">
+      <h2>Календарь с немецкой локалью:</h2>
+      <Calendar locale="de-DE" @select="onDateSelect" />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+#app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.calendar-controls {
+  margin-bottom: 20px;
+}
+
+.calendar-controls button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar-controls button:hover {
+  background-color: #0056b3;
 }
 
 .logo {
   display: block;
   margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 }
 </style>
